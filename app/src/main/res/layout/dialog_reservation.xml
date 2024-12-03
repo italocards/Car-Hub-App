@@ -43,14 +43,12 @@
         android:textSize="14sp"
         android:layout_marginBottom="4dp"/>
 
-    <EditText
+    <DatePicker
         android:id="@+id/pickupDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:clickable="true"
-        android:hint="Select Pickup Date"
-        android:textSize="14sp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
         android:layout_marginBottom="16dp"/>
 
     <!-- Data de Return -->
@@ -62,14 +60,12 @@
         android:textSize="14sp"
         android:layout_marginBottom="4dp"/>
 
-    <EditText
+    <DatePicker
         android:id="@+id/returnDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:clickable="true"
-        android:hint="Select Return Date"
-        android:textSize="14sp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
         android:layout_marginBottom="16dp"/>
 
     <!-- Preço Total -->

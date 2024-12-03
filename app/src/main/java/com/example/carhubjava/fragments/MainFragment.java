@@ -55,7 +55,6 @@ public class MainFragment extends Fragment {
 
     // Ação ao clicar no carro
     private void onCarClick(Car car) {
-        // Exemplo de como abrir um Dialog com os detalhes do carro
         ReservationDialogFragment dialog = ReservationDialogFragment.newInstance(car);
         dialog.show(getChildFragmentManager(), "ReservationDialog");
     }

@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.example.carhubjava.R;
 import com.example.carhubjava.model.Car;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
@@ -26,8 +25,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     public CarAdapter(List<Car> carList, OnCarClickListener listener) {
-        // Evitar null, garantindo que a lista não seja nula
-        this.carList = (carList != null) ? carList : new ArrayList<>();
+        this.carList = carList;
         this.onCarClickListener = listener;
     }
 
@@ -53,6 +51,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         return carList.size();
     }
 
+    // Método para atualizar a lista de carros
+    public void setCarList(List<Car> carList) {
+        this.carList = carList;
+        notifyDataSetChanged();  // Notifica que a lista foi atualizada
+    }
+
     public static class CarViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
         TextView priceTextView;
@@ -64,11 +68,5 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             priceTextView = itemView.findViewById(R.id.carPrice);
             carImageView = itemView.findViewById(R.id.carImage);
         }
-    }
-
-    // Método para atualizar a lista de carros
-    public void setCarList(List<Car> carList) {
-        this.carList = carList != null ? carList : new ArrayList<>();
-        notifyDataSetChanged();
     }
 }
