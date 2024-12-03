@@ -28,7 +28,7 @@ public class CarViewModel extends AndroidViewModel {
     }
 
     public void loadCars() {
-        // Carregar carros e garantir que a lista não é nula
+        // Carregar carros e garantir que a lista não seja nula
         List<Car> cars = carRepository.getCars();
         if (cars != null) {
             carListLiveData.setValue(cars);
@@ -37,4 +37,3 @@ public class CarViewModel extends AndroidViewModel {
         }
     }
 }
-

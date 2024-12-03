@@ -1,26 +1,26 @@
 package com.example.carhubjava.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.carhubjava.R;
 import com.example.carhubjava.ui.adapters.CarAdapter;
 import com.example.carhubjava.viewmodel.CarViewModel;
+import com.example.carhubjava.model.Car;
 
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
     private CarViewModel carViewModel;
-    private CarAdapter carAdapter;  // Defina carAdapter como um campo da classe
+    private CarAdapter carAdapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -38,9 +38,7 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Inicializando o adaptador com uma lista vazia inicialmente
-        carAdapter = new CarAdapter(new ArrayList<>(), car -> {
-            // Implementar a ação quando o carro for clicado
-        });
+        carAdapter = new CarAdapter(new ArrayList<>(), this::onCarClick);
         recyclerView.setAdapter(carAdapter);
 
         // Carregando os dados
@@ -48,13 +46,17 @@ public class MainFragment extends Fragment {
 
         // Observando as mudanças na lista de carros
         carViewModel.getCarList().observe(getViewLifecycleOwner(), carList -> {
-            // Verifica se a lista de carros não é nula
-            if (carList != null) {
-                // Atualizando a lista no adaptador
-                carAdapter.updateCarList(carList); // Atualize a lista de carros no adaptador
-            }
+            // Atualizando a lista de carros no adaptador
+            carAdapter.setCarList(carList);
         });
 
         return view;
+    }
+
+    // Ação ao clicar no carro
+    private void onCarClick(Car car) {
+        // Exemplo de como abrir um Dialog com os detalhes do carro
+        ReservationDialogFragment dialog = ReservationDialogFragment.newInstance(car);
+        dialog.show(getChildFragmentManager(), "ReservationDialog");
     }
 }

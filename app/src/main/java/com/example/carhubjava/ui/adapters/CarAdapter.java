@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.carhubjava.R;
 import com.example.carhubjava.model.Car;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
@@ -25,7 +26,8 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     public CarAdapter(List<Car> carList, OnCarClickListener listener) {
-        this.carList = carList;
+        // Evitar null, garantindo que a lista não seja nula
+        this.carList = (carList != null) ? carList : new ArrayList<>();
         this.onCarClickListener = listener;
     }
 
@@ -40,7 +42,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
         Car car = carList.get(position);
         holder.nameTextView.setText(car.getName());
-        holder.priceTextView.setText(car.getPricePerDay()); // Exibindo preço por dia
+        holder.priceTextView.setText(car.getPricePerDay());
         Glide.with(holder.itemView.getContext()).load(car.getImageUrl()).into(holder.carImageView);
 
         holder.itemView.setOnClickListener(v -> onCarClickListener.onCarClick(car));
@@ -49,11 +51,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     @Override
     public int getItemCount() {
         return carList.size();
-    }
-
-    public void updateCarList(List<Car> carList) {
-        this.carList = carList;
-        notifyDataSetChanged();
     }
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
@@ -67,5 +64,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             priceTextView = itemView.findViewById(R.id.carPrice);
             carImageView = itemView.findViewById(R.id.carImage);
         }
+    }
+
+    // Método para atualizar a lista de carros
+    public void setCarList(List<Car> carList) {
+        this.carList = carList != null ? carList : new ArrayList<>();
+        notifyDataSetChanged();
     }
 }
