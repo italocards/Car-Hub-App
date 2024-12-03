@@ -47,8 +47,14 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
 
+    implementation("androidx.fragment:fragment:1.3.6") // ou versão mais recente
+
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
     // Para utilizar a Bottom Navigation
     implementation("com.google.android.material:material:1.6.0")
+
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")  // Para usar o Glide com anotações
+
 }

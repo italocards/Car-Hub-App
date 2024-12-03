@@ -1,0 +1,35 @@
+<!-- item_car.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Imagem do carro -->
+    <ImageView
+        android:id="@+id/carImage"
+        android:layout_width="355dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:src="@drawable/car_placeholder" />
+
+    <!-- Nome do carro -->
+    <TextView
+        android:id="@+id/carName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Car Name"
+        android:textSize="18sp"
+        android:paddingTop="8dp" />
+
+    <!-- Preço do carro por dia -->
+    <TextView
+        android:id="@+id/carPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$100/day"
+        android:textColor="@color/colorPrimaryDark"
+        android:paddingTop="4dp" />
+</LinearLayout>
