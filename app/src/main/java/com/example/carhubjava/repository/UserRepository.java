@@ -3,7 +3,6 @@ package com.example.carhubjava.repository;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.carhubjava.model.Reservation;
 import com.example.carhubjava.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -14,15 +13,16 @@ public class UserRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
-    // Método para registrar um novo usuário
-    public LiveData<Boolean> registerUser(String name, String nickname, String birthDate, String cnh, String email, String password) {
+    // Método de registro de usuário
+    public LiveData<Boolean> registerUser(User user, String password) {
         MutableLiveData<Boolean> registrationStatus = new MutableLiveData<>();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         String userId = firebaseAuth.getCurrentUser().getUid();
-                        User user = new User(userId, name, nickname, birthDate, cnh, email);
+                        user.setUserId(userId);
+
                         databaseReference.child(userId).setValue(user)
                                 .addOnCompleteListener(databaseTask -> {
                                     registrationStatus.setValue(databaseTask.isSuccessful());
@@ -35,7 +35,7 @@ public class UserRepository {
         return registrationStatus;
     }
 
-    // Método para fazer login
+    // Método de login
     public LiveData<Boolean> login(String email, String password) {
         MutableLiveData<Boolean> loginStatus = new MutableLiveData<>();
 
@@ -49,15 +49,5 @@ public class UserRepository {
                 });
 
         return loginStatus;
-    }
-
-    // Método para adicionar uma reserva no histórico do usuário
-    public LiveData<Boolean> addReservation(String userId, Reservation reservation) {
-        MutableLiveData<Boolean> addReservationStatus = new MutableLiveData<>();
-
-        databaseReference.child(userId).child("reservationHistory").push().setValue(reservation)
-                .addOnCompleteListener(task -> addReservationStatus.setValue(task.isSuccessful()));
-
-        return addReservationStatus;
     }
 }

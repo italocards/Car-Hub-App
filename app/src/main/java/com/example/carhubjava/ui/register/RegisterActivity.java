@@ -7,28 +7,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.auth.FirebaseUser;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.carhubjava.R;
 import com.example.carhubjava.model.User;
+import com.example.carhubjava.viewmodel.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, nicknameEditText, birthDateEditText, cnhEditText, emailEditText, passwordEditText;
     private Button registerButton;
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference mDatabase;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Inicializar Firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // Inicializar ViewModel
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Inicializar componentes da interface
         nameEditText = findViewById(R.id.nameEditText);
@@ -54,34 +51,15 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // Registrar o usuário
-            registerUser(name, nickname, birthDate, cnh, email, password);
+            User user = new User(null, name, nickname, birthDate, cnh, email);
+            userViewModel.registerUser(user, password).observe(this, isSuccess -> {
+                if (isSuccess) {
+                    Toast.makeText(RegisterActivity.this, "Registro bem-sucedido!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Erro no registro. Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
-    }
-
-    private void registerUser(String name, String nickname, String birthDate, String cnh, String email, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Se o registro for bem-sucedido, salve os dados no Realtime Database
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        if (user != null) {
-                            // Criar um novo objeto de usuário com todos os dados
-                            User userProfile = new User(user.getUid(), name, nickname, birthDate, cnh, email);
-
-                            // Salve todos os dados do usuário no Realtime Database
-                            mDatabase.child("users").child(user.getUid()).setValue(userProfile)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(RegisterActivity.this, "Registro bem-sucedido!", Toast.LENGTH_SHORT).show();
-                                        finish(); // Fecha a tela de registro e vai para a tela principal
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(RegisterActivity.this, "Erro ao salvar dados.", Toast.LENGTH_SHORT).show();
-                                    });
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Erro no registro. Verifique os dados inseridos.", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
