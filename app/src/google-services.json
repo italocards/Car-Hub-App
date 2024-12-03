@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634220706857",
+    "project_id": "carhub-c4e4f",
+    "storage_bucket": "carhub-c4e4f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634220706857:android:401f0045e8bf851c5db038",
+        "android_client_info": {
+          "package_name": "com.example.carhubjava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtbsH1CA5gBJjxfl9vQH286Hia48EGOE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
