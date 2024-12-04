@@ -69,8 +69,8 @@ public class ReservationDialogFragment extends DialogFragment {
             // Obtenha o preço por dia do carro selecionado
             String pricePerDay = selectedCar.getPricePerDay();
 
-            // Criar a reserva e salvar no banco
-            carViewModel.createReservation(selectedCar.getId(), pickupDate, returnDate, userId, pricePerDay);
+            // Criar a reserva com o nome do veículo
+            carViewModel.createReservation(selectedCar.getId(), pickupDate, returnDate, userId, pricePerDay, selectedCar.getName());
 
             dismiss();  // Fechar o diálogo
         });

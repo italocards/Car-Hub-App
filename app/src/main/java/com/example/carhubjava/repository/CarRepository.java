@@ -35,7 +35,8 @@ public class CarRepository {
     // Método para salvar a reserva
     public void saveReservation(Reservation reservation) {
         String reservationId = databaseReference.child("reservations").push().getKey();
-        reservation.setReservationId(reservationId);
+        reservation.setReservationId(reservationId); // Agora esse método existe na classe Reservation
         databaseReference.child("reservations").child(reservationId).setValue(reservation);
     }
+
 }

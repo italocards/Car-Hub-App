@@ -6,20 +6,22 @@ public class Reservation {
     private String reservationId;
     private String userId;  // ID do usuário que está fazendo a reserva
     private String vehicleId;
+    private String vehicleName;  // Nome do veículo
     private String pickupDate;
     private String returnDate;
     private String status;
-    private String totalPrice;  // Preço total da reserva
+    private double totalPrice;  // Preço total da reserva
 
     // Construtor vazio para Firebase
     public Reservation() {
     }
 
-    // Construtor com parâmetros (geração do reservationId)
-    public Reservation(String userId, String vehicleId, String pickupDate, String returnDate, String status, String totalPrice) {
+    // Construtor com parâmetros
+    public Reservation(String userId, String vehicleId, String vehicleName, String pickupDate, String returnDate, String status, double totalPrice) {
         this.reservationId = FirebaseDatabase.getInstance().getReference("reservations").push().getKey(); // Gera automaticamente o ID
         this.userId = userId;
         this.vehicleId = vehicleId;
+        this.vehicleName = vehicleName;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
         this.status = status;
@@ -51,6 +53,14 @@ public class Reservation {
         this.vehicleId = vehicleId;
     }
 
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
+    }
+
     public String getPickupDate() {
         return pickupDate;
     }
@@ -75,11 +85,11 @@ public class Reservation {
         this.status = status;
     }
 
-    public String getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(String totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -87,6 +97,6 @@ public class Reservation {
     public void calculateTotalPrice(String pricePerDay, int numberOfDays) {
         double price = Double.parseDouble(pricePerDay.replace("$", "").replace("/day", ""));
         double total = price * numberOfDays;
-        this.totalPrice = "$" + total;
+        this.totalPrice = total;
     }
 }
